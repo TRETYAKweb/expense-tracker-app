@@ -1,0 +1,31 @@
+{
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "extends": ["@feature-sliced"],
+    "parser": "@typescript-eslint/parser",
+    "settings": {
+      "import/resolver": {
+        "typescript": {
+          "alwaysTryTypes": true
+        }
+      }
+    },
+    "rules": {
+      "import/no-internal-modules": [
+        "warn",
+        {
+          "allow": [
+            "**/ui/*",
+            "screens/*",
+            "processes/*",
+            "widgets/*",
+            "features/*",
+            "entities/*",
+            "shared/*"
+          ]
+        }
+      ]
+    }
+  }
