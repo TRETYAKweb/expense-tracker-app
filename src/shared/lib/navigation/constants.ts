@@ -3,6 +3,3 @@ export enum screenNames {
   RecentExpenses = "RecentExpenses",
   ManageExpense = "ManageExpense",
 }
-
-// export const stackScreenOptions = {};
-// export const tabScreenOptions = {};
