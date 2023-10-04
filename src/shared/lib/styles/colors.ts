@@ -1,25 +1,4 @@
-interface Colors {
-  primary: {
-    300: string;
-    500: string;
-    600: string;
-    700: string;
-    900: string;
-  };
-  error: {
-    100: string;
-    500: string;
-  };
-  gray: {
-    300: string;
-    500: string;
-    900: string;
-  };
-  black: string;
-  white: string;
-}
-
-export const colors: Colors = {
+export const colors = {
   primary: {
     300: "#cac7ff",
     500: "#514ad5",
@@ -27,6 +6,7 @@ export const colors: Colors = {
     700: "#2d25d4",
     900: "#060517",
   },
+  accent: "#C8974B",
   error: {
     100: "#ff8785",
     500: "#d92b27",
