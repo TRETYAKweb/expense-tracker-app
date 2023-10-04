@@ -1,1 +1,1 @@
-export { ManageExpenseScreen } from "./ui/Screen";
+export { Screen as ManageExpenseScreen } from "./ui/manage-expense-screen";
