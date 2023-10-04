@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
 import { RecentExpensesScreen, AllExpensesScreen } from "../../screens";
+
 import React from "react";
 import { colors, screenNames } from "../../shared/lib";
 
@@ -28,6 +29,7 @@ export const BottomTabNavigation: React.FC = () => {
         tabBarItemStyle: {
           paddingVertical: 5,
         },
+        tabBarActiveTintColor: colors.accent,
         tabBarInactiveTintColor: colors.primary[300],
       }}
     >
@@ -35,7 +37,8 @@ export const BottomTabNavigation: React.FC = () => {
         name={screenNames.RecentExpenses}
         component={RecentExpensesScreen}
         options={{
-          title: "Recent",
+          title: "Recent Expenses",
+          tabBarLabel: "Recent",
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name={focused ? "time" : "time-outline"}
