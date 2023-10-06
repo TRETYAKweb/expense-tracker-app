@@ -15,6 +15,7 @@ export const Screen: React.FC = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    padding: 25,
+    paddingHorizontal: 25,
+    paddingTop: 25,
   },
 });
