@@ -1,11 +1,18 @@
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  ManageExpenseScreen,
+  RecentExpensesScreen,
+  AllExpensesScreen,
+} from "../screens";
+import { screenNames, colors } from "../shared/lib";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import { IconButton } from "../shared/ui";
 
-import { RecentExpensesScreen, AllExpensesScreen } from "../../screens";
-
-import React from "react";
-import { colors, screenNames } from "../../shared/lib";
-
+const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
 
 export const BottomTabNavigation: React.FC = () => {
@@ -31,6 +38,9 @@ export const BottomTabNavigation: React.FC = () => {
         },
         tabBarActiveTintColor: colors.accent,
         tabBarInactiveTintColor: colors.primary[300],
+        headerRight: ({ tintColor }) => (
+          <IconButton name="add" size={31} color={tintColor} />
+        ),
       }}
     >
       <BottomTab.Screen
@@ -63,5 +73,31 @@ export const BottomTabNavigation: React.FC = () => {
         }}
       />
     </BottomTab.Navigator>
+  );
+};
+
+export const StackNavigation: React.FC = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ExpenseOverview"
+        component={BottomTabNavigation}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={screenNames.ManageExpense}
+        component={ManageExpenseScreen}
+      />
+    </Stack.Navigator>
+  );
+};
+
+export const Routing: React.FC = () => {
+  return (
+    <NavigationContainer>
+      <StackNavigation />
+    </NavigationContainer>
   );
 };
