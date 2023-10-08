@@ -1,12 +1,12 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
   ManageExpenseScreen,
   RecentExpensesScreen,
   AllExpensesScreen,
 } from "../screens";
-import { screenNames, colors } from "../shared/lib";
+import { screenNames, colors, fonts } from "../shared/lib";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,6 +16,8 @@ const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
 
 export const BottomTabNavigation: React.FC = () => {
+  const { navigate } = useNavigation();
+
   return (
     <BottomTab.Navigator
       screenOptions={{
@@ -28,10 +30,9 @@ export const BottomTabNavigation: React.FC = () => {
         headerTintColor: colors.white,
         tabBarStyle: {
           backgroundColor: colors.primary[900],
-          height: 95,
         },
         tabBarLabelStyle: {
-          fontSize: 14,
+          fontFamily: fonts.roboto400,
         },
         tabBarItemStyle: {
           paddingVertical: 5,
@@ -39,7 +40,12 @@ export const BottomTabNavigation: React.FC = () => {
         tabBarActiveTintColor: colors.accent,
         tabBarInactiveTintColor: colors.primary[300],
         headerRight: ({ tintColor }) => (
-          <IconButton name="add" size={31} color={tintColor} />
+          <IconButton
+            name="add"
+            size={31}
+            color={tintColor}
+            onPress={() => navigate(screenNames.ManageExpense as never)}
+          />
         ),
       }}
     >
@@ -78,7 +84,14 @@ export const BottomTabNavigation: React.FC = () => {
 
 export const StackNavigation: React.FC = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.primary[700],
+        },
+        headerTintColor: colors.white,
+      }}
+    >
       <Stack.Screen
         name="ExpenseOverview"
         component={BottomTabNavigation}
@@ -87,6 +100,9 @@ export const StackNavigation: React.FC = () => {
         }}
       />
       <Stack.Screen
+        options={{
+          presentation: "modal",
+        }}
         name={screenNames.ManageExpense}
         component={ManageExpenseScreen}
       />
