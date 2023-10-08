@@ -18,10 +18,12 @@ export const Summary: React.FC<SummaryProps> = ({
 
   return (
     <View style={styles.root}>
-      <Text style={styles.expensesPeriod}>{expensesPeriod}</Text>
       <View style={styles.inner}>
-        <Text style={styles.dollar}>$</Text>
-        <Text style={styles.text}>{totalSum.toFixed(2)}</Text>
+        <Text style={styles.expensesPeriod}>{expensesPeriod}</Text>
+        <View style={styles.totalSum}>
+          <Text style={styles.dollar}>$</Text>
+          <Text style={styles.text}>{totalSum.toFixed(2)}</Text>
+        </View>
       </View>
     </View>
   );
@@ -34,13 +36,17 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.gray[500],
   },
 
+  inner: {
+    paddingHorizontal: 25,
+  },
+
   expensesPeriod: {
     fontFamily: fonts.gilroy800,
     fontSize: 17,
     marginBottom: 5,
     color: colors.accent,
   },
-  inner: {
+  totalSum: {
     flexDirection: "row",
   },
   text: {
