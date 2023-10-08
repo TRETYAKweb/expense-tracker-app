@@ -6,15 +6,29 @@ import {
   colors,
   fonts,
   getFormattedDate,
+  screenNames,
 } from "../../../shared/lib";
+import { useNavigation } from "@react-navigation/native";
+
+import { StackNavigationProp } from "@react-navigation/stack";
+
+export type RootStackParamList = {
+  ManageExpense: { expenseId: string };
+};
 
 interface CardProps {
   expense: ExpenseItem;
 }
 
 export const Card: React.FC<CardProps> = ({ expense }) => {
+  const { navigate } = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  const handlePress = () =>
+    navigate(screenNames.ManageExpense, { expenseId: expense.id });
+
   return (
     <Pressable
+      onPress={() => handlePress()}
       style={({ pressed }) =>
         pressed ? [styles.root, styles.pressed] : styles.root
       }
@@ -42,6 +56,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: colors.primary[700],
     marginVertical: 5,
+    marginHorizontal: 25,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
