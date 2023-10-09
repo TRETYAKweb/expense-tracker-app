@@ -43,7 +43,9 @@ export const Button: React.FC<ButtonProps> = ({
               size={iconSize}
             />
           )}
-          <Text style={styles.textBtn}>{children}</Text>
+          <Text style={[styles.textBtn, mode === "flat" && styles.flatText]}>
+            {children}
+          </Text>
         </View>
       </Pressable>
     </View>
@@ -73,5 +75,8 @@ const styles = StyleSheet.create({
   },
   flat: {
     backgroundColor: "transparent",
+  },
+  flatText: {
+    color: colors.primary[600],
   },
 });
