@@ -58,6 +58,9 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 25,
     borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    minWidth: 175,
   },
   containerWithIcon: {
     flexDirection: "row",
@@ -77,6 +80,6 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   flatText: {
-    color: colors.primary[600],
+    color: colors.primary[700],
   },
 });
