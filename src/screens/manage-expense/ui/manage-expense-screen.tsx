@@ -1,11 +1,11 @@
 import React, { useLayoutEffect } from "react";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { RouteProp } from "@react-navigation/native";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 import { DUMMY_EXPENSES } from "../../../shared/lib/mock/dummy-expenses";
 import { capitalizeFirstLetter, colors, fonts } from "../../../shared/lib";
-import { Button, IconButton } from "../../../shared/ui";
+import { Button } from "../../../shared/ui";
 
 export type RootStackParamList = {
   ManageExpense: { expenseId: string };
@@ -28,6 +28,12 @@ export const Screen: React.FC = () => {
 
   return (
     <View style={styles.root}>
+      <View style={styles.btnContainer}>
+        <Button mode="flat" onPress={() => navigate.goBack()}>
+          Cancle
+        </Button>
+        <Button onPress={() => {}}>{isEditing ? "Update" : "Add"}</Button>
+      </View>
       {isEditing && expenseItem && (
         <View style={styles.inner}>
           <View>
@@ -36,7 +42,15 @@ export const Screen: React.FC = () => {
             </Text>
             <Text style={styles.amount}>${expenseItem.amount}</Text>
           </View>
-          <Button onPress={() => {}}>Delete expense</Button>
+          <Button
+            mode="error"
+            iconName="trash"
+            iconSize={21}
+            iconColor={colors.white}
+            onPress={() => {}}
+          >
+            Delete expense
+          </Button>
         </View>
       )}
     </View>
@@ -59,5 +73,13 @@ const styles = StyleSheet.create({
   amount: {
     fontFamily: fonts.gilroy300,
     fontSize: 24,
+  },
+  btnContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    paddingBottom: 15,
+    marginBottom: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.gray[500],
   },
 });
