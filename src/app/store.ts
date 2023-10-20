@@ -1,5 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { expenseModel } from "entities";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    expense: expenseModel.reducer,
+  },
 });
