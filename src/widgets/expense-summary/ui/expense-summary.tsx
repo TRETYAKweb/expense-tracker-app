@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { colors, fonts } from "../../../shared/lib";
+import { colors, fonts } from "shared";
 import { ExpenseItem } from "shared/lib/mock/dummy-expenses";
 
 interface SummaryProps {

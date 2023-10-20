@@ -5,12 +5,12 @@ import {
   ManageExpenseScreen,
   RecentExpensesScreen,
   AllExpensesScreen,
-} from "../screens";
-import { screenNames, colors, fonts } from "../shared/lib";
+} from "screens";
+import { screenNames, colors, fonts } from "shared";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import { IconButton } from "../shared/ui";
+import { IconButton } from "shared";
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();

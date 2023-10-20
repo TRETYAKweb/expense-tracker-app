@@ -1,7 +1,7 @@
-import { ExpenseCard } from "../../../entities";
+import { ExpenseCard } from "entities";
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import { ExpenseItem } from "shared/lib/mock/dummy-expenses";
+import { ExpenseItem } from "shared";
 
 interface ListProps {
   expenses: ExpenseItem[];

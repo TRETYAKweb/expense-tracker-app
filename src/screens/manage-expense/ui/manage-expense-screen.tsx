@@ -3,9 +3,9 @@ import { useRoute, useNavigation } from "@react-navigation/native";
 import { RouteProp } from "@react-navigation/native";
 import { StyleSheet, Text, View } from "react-native";
 
-import { DUMMY_EXPENSES } from "../../../shared/lib/mock/dummy-expenses";
-import { capitalizeFirstLetter, colors, fonts } from "../../../shared/lib";
-import { Button } from "../../../shared/ui";
+import { DUMMY_EXPENSES } from "shared";
+import { capitalizeFirstLetter, colors, fonts } from "shared";
+import { Button } from "shared";
 
 export type RootStackParamList = {
   ManageExpense: { expenseId: string };

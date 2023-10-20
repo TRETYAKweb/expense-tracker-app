@@ -1,5 +1,5 @@
 import React from "react";
-import { DUMMY_EXPENSES } from "../../../shared/lib";
+import { DUMMY_EXPENSES } from "shared";
 import { StyleSheet, View } from "react-native";
 import { ExpenseList, ExpenseSummary } from "widgets";
 
