@@ -1,7 +1,7 @@
 import React from "react";
-import { ExpenseList, ExpenseSummary } from "../../../widgets";
 import { DUMMY_EXPENSES } from "../../../shared/lib";
 import { StyleSheet, View } from "react-native";
+import { ExpenseList, ExpenseSummary } from "widgets";
 
 export const Screen: React.FC = () => {
   return (
