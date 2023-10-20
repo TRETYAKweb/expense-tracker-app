@@ -37,7 +37,7 @@ export const Card: React.FC<CardProps> = ({ expense }) => {
         <Text style={styles.description}>
           {capitalizeFirstLetter(expense.description)}
         </Text>
-        <Text style={styles.date}>{getFormattedDate(expense.date)}</Text>
+        <Text style={styles.date}>{expense.date}</Text>
       </View>
       <View style={styles.amountContainer}>
         <Text style={styles.amount}>${expense.amount.toFixed(2)}</Text>
