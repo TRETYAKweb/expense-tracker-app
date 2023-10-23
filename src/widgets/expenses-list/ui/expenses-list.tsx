@@ -1,6 +1,6 @@
 import { ExpenseCard } from "entities";
 import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import { ExpenseItem } from "shared";
 
 interface ListProps {
@@ -13,7 +13,12 @@ export const List: React.FC<ListProps> = ({ expenses }) => {
   };
 
   return (
-    <FlatList style={styles.root} data={expenses} renderItem={renderItem} />
+    <FlatList
+      style={styles.root}
+      data={expenses}
+      renderItem={renderItem}
+      extraData={expenses}
+    />
   );
 };
 
