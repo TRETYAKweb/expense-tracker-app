@@ -1,13 +1,7 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { ExpenseItem } from "shared";
-import {
-  capitalizeFirstLetter,
-  colors,
-  fonts,
-  getFormattedDate,
-  screenNames,
-} from "shared";
+import { capitalizeFirstLetter, colors, fonts, screenNames } from "shared";
 import { useNavigation } from "@react-navigation/native";
 
 import { StackNavigationProp } from "@react-navigation/stack";
