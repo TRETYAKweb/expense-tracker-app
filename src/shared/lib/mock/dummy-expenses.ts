@@ -189,3 +189,10 @@ export const DUMMY_EXPENSES: ExpenseItem[] = [
     date: getFormattedDate(new Date("2025-06-10")),
   },
 ];
+
+export const mockData: ExpenseItem = {
+  id: Math.floor(Math.random() * 1000000).toString(),
+  description: "Test",
+  amount: 99.99,
+  date: getFormattedDate(new Date("2023-01-19")),
+};
