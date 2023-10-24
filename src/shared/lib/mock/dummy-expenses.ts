@@ -128,66 +128,6 @@ export const DUMMY_EXPENSES: ExpenseItem[] = [
     amount: 15.75,
     date: getFormattedDate(new Date("2024-08-02")),
   },
-  {
-    id: "e21",
-    description: "phone bill",
-    amount: 50.5,
-    date: getFormattedDate(new Date("2024-09-12")),
-  },
-  {
-    id: "e22",
-    description: "car wash",
-    amount: 12.0,
-    date: getFormattedDate(new Date("2024-10-25")),
-  },
-  {
-    id: "e23",
-    description: "home repairs",
-    amount: 95.0,
-    date: getFormattedDate(new Date("2024-11-05")),
-  },
-  {
-    id: "e24",
-    description: "school supplies",
-    amount: 28.99,
-    date: getFormattedDate(new Date("2024-12-15")),
-  },
-  {
-    id: "e25",
-    description: "movie rental",
-    amount: 4.99,
-    date: getFormattedDate(new Date("2025-01-21")),
-  },
-  {
-    id: "e26",
-    description: "travel expenses",
-    amount: 200.0,
-    date: getFormattedDate(new Date("2025-02-14")),
-  },
-  {
-    id: "e27",
-    description: "groceries",
-    amount: 42.3,
-    date: getFormattedDate(new Date("2025-03-07")),
-  },
-  {
-    id: "e28",
-    description: "fitness class",
-    amount: 30.0,
-    date: getFormattedDate(new Date("2025-04-18")),
-  },
-  {
-    id: "e29",
-    description: "electronics",
-    amount: 85.5,
-    date: getFormattedDate(new Date("2025-05-29")),
-  },
-  {
-    id: "e30",
-    description: "restaurant",
-    amount: 75.75,
-    date: getFormattedDate(new Date("2025-06-10")),
-  },
 ];
 
 export const mockData: ExpenseItem = {
