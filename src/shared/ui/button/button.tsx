@@ -26,29 +26,30 @@ export const Button: React.FC<ButtonProps> = ({
   const iconNameExists = !!iconName;
 
   return (
-    <View>
-      <Pressable onPress={onPress}>
-        <View
-          style={[
-            styles.root,
-            iconNameExists && styles.containerWithIcon,
-            mode && styles[mode],
-          ]}
-        >
-          {iconNameExists && (
-            <Ionicons
-              style={styles.icon}
-              name={iconName}
-              color={iconColor}
-              size={iconSize}
-            />
-          )}
-          <Text style={[styles.textBtn, mode === "flat" && styles.flatText]}>
-            {children}
-          </Text>
-        </View>
-      </Pressable>
-    </View>
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [pressed ? styles.pressed : null]}
+    >
+      <View
+        style={[
+          styles.root,
+          iconNameExists && styles.containerWithIcon,
+          mode && styles[mode],
+        ]}
+      >
+        {iconNameExists && (
+          <Ionicons
+            style={styles.icon}
+            name={iconName}
+            color={iconColor}
+            size={iconSize}
+          />
+        )}
+        <Text style={[styles.textBtn, mode === "flat" && styles.flatText]}>
+          {children}
+        </Text>
+      </View>
+    </Pressable>
   );
 };
 
@@ -81,5 +82,8 @@ const styles = StyleSheet.create({
   },
   flatText: {
     color: colors.primary[700],
+  },
+  pressed: {
+    opacity: 0.7,
   },
 });
