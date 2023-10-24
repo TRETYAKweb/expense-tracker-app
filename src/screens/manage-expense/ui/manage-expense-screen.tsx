@@ -46,22 +46,6 @@ export const Screen: React.FC = () => {
 
   return (
     <View style={styles.root}>
-      <View style={styles.btnContainer}>
-        <Button mode="flat" onPress={() => navigate.goBack()}>
-          Cancle
-        </Button>
-        {isEditing ? (
-          <UpdateExpense
-            data={{ id: expenseId, data }}
-            updateExpense={expenseModel.actionsExpense.updateExpense}
-          />
-        ) : (
-          <AddExpense
-            data={mockData}
-            addExpense={expenseModel.actionsExpense.addExpdense}
-          />
-        )}
-      </View>
       {isEditing && expenseItem && (
         <View style={styles.inner}>
           <View>
@@ -76,6 +60,17 @@ export const Screen: React.FC = () => {
           />
         </View>
       )}
+      {isEditing ? (
+        <UpdateExpense
+          data={{ id: expenseId, data }}
+          updateExpense={expenseModel.actionsExpense.updateExpense}
+        />
+      ) : (
+        <AddExpense
+          data={mockData}
+          addExpense={expenseModel.actionsExpense.addExpdense}
+        />
+      )}
     </View>
   );
 };
@@ -88,6 +83,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingBottom: 15,
+    marginBottom: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.gray[500],
   },
   description: {
     fontFamily: fonts.gilroy800,
@@ -96,13 +95,5 @@ const styles = StyleSheet.create({
   amount: {
     fontFamily: fonts.gilroy300,
     fontSize: 24,
-  },
-  btnContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    paddingBottom: 15,
-    marginBottom: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.gray[500],
   },
 });
