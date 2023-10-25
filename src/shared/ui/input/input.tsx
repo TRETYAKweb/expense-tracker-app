@@ -21,11 +21,12 @@ interface IInputConfig {
 interface inputProps {
   lable: string;
   inputConfig: IInputConfig;
+  style?: { flex: number };
 }
 
-export const Input: React.FC<inputProps> = ({ lable, inputConfig }) => {
+export const Input: React.FC<inputProps> = ({ lable, inputConfig, style }) => {
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, style]}>
       <Text style={styles.lable}>{lable}</Text>
       <TextInput
         style={[styles.input, inputConfig.multiline && styles.multiline]}
@@ -38,13 +39,12 @@ export const Input: React.FC<inputProps> = ({ lable, inputConfig }) => {
 const styles = StyleSheet.create({
   root: {
     marginVertical: 8,
-    flex: 1,
   },
   lable: {
-    fontFamily: fonts.gilroy800,
-    fontSize: 18,
+    fontFamily: fonts.roboto700,
+    fontSize: 16,
     color: colors.primary[900],
-    marginBottom: 5,
+    marginBottom: 7,
   },
   input: {
     fontFamily: fonts.roboto400,
