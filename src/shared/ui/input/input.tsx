@@ -11,8 +11,9 @@ import { colors, fonts } from "shared/lib";
 interface IInputConfig {
   placeholder: string;
   keyboardType: KeyboardTypeOptions;
-  onChangeText?: (value: string) => void;
+  onChangeText: (value: string) => void;
   maxLength?: number;
+  value?: string;
   multiline?: boolean;
   numberOfLines?: number;
   autoCapitalize?: "none" | "sentences" | "words" | "characters";
