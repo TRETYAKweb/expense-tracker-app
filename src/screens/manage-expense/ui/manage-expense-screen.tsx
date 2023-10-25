@@ -51,8 +51,9 @@ export const Screen: React.FC = () => {
           />
         </View>
       )}
-      {isEditing ? (
+      {isEditing && expenseItem ? (
         <UpdateExpense
+          defaultValue={expenseItem}
           id={expenseId}
           updateExpense={expenseModel.actionsExpense.updateExpense}
         />
