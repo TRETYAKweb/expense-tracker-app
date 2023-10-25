@@ -6,11 +6,8 @@ import {
   capitalizeFirstLetter,
   colors,
   fonts,
-  Button,
   ExpenseItem,
   useAppSelector,
-  mockData,
-  getFormattedDate,
 } from "shared";
 import { DeleteExpense, AddExpense, UpdateExpense } from "features";
 import { expenseModel } from "entities";
@@ -37,15 +34,9 @@ export const Screen: React.FC = () => {
     });
   }, [navigate, isEditing]);
 
-  //TODO эта дата на время | UpdateExpense!
-
-  const data: Partial<ExpenseItem> = {
-    description: "Test",
-    amount: 99.99,
-  };
-
   return (
     <View style={styles.root}>
+      <Text style={styles.title}>Your Expense</Text>
       {isEditing && expenseItem && (
         <View style={styles.inner}>
           <View>
@@ -62,14 +53,11 @@ export const Screen: React.FC = () => {
       )}
       {isEditing ? (
         <UpdateExpense
-          data={{ id: expenseId, data }}
+          id={expenseId}
           updateExpense={expenseModel.actionsExpense.updateExpense}
         />
       ) : (
-        <AddExpense
-          data={mockData}
-          addExpense={expenseModel.actionsExpense.addExpdense}
-        />
+        <AddExpense addExpense={expenseModel.actionsExpense.addExpdense} />
       )}
     </View>
   );
@@ -95,5 +83,11 @@ const styles = StyleSheet.create({
   amount: {
     fontFamily: fonts.gilroy300,
     fontSize: 24,
+  },
+  title: {
+    fontFamily: fonts.gilroy800,
+    fontSize: 24,
+    textAlign: "center",
+    marginBottom: 30,
   },
 });
