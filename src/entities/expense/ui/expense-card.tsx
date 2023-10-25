@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
 
   description: {
     fontFamily: fonts.gilroy800,
+    maxWidth: 200,
     fontSize: 20,
     color: colors.white,
     lineHeight: 20,
