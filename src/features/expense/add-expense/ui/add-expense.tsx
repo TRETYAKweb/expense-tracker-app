@@ -1,20 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { StyleSheet, View } from "react-native";
 import { Button, ExpenseItem, Input, colors, useAppDispatch } from "shared";
+import { createExpense } from "../model";
 
 interface AddExpenseProps {
-  data: ExpenseItem;
   addExpense: (data: ExpenseItem) => PayloadAction<ExpenseItem>;
 }
 
-export const AddExpense: React.FC<AddExpenseProps> = ({ data, addExpense }) => {
+export const AddExpense: React.FC<AddExpenseProps> = ({ addExpense }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigation();
+  const [inputValues, setInputValues] = useState<Partial<ExpenseItem>>({
+    amount: 0,
+    description: "",
+    date: "",
+  });
 
-  const handlePress = (data: ExpenseItem) => {
-    dispatch(addExpense(data));
+  const inputHandler = (
+    inputType: keyof Partial<ExpenseItem>,
+    values: string
+  ) => {
+    setInputValues((currentValues) => ({
+      ...currentValues,
+      [inputType]: values,
+    }));
+  };
+
+  const handlePress = () => {
+    const expenseData = createExpense(inputValues);
+    dispatch(addExpense(expenseData));
     navigate.goBack();
   };
 
@@ -27,7 +43,9 @@ export const AddExpense: React.FC<AddExpenseProps> = ({ data, addExpense }) => {
             inputConfig={{
               keyboardType: "decimal-pad",
               placeholder: "0",
+              onChangeText: (text) => inputHandler("amount", text),
             }}
+            style={styles.rowInput}
           />
           <Input
             lable="Date:"
@@ -35,25 +53,26 @@ export const AddExpense: React.FC<AddExpenseProps> = ({ data, addExpense }) => {
               keyboardType: "default",
               placeholder: "YYYY-MM-DD",
               maxLength: 10,
+              onChangeText: (text) => inputHandler("date", text),
             }}
+            style={styles.rowInput}
           />
         </View>
-        <View style={styles.innerInput}>
-          <Input
-            lable="Description:"
-            inputConfig={{
-              keyboardType: "default",
-              placeholder: "Description",
-              multiline: true,
-            }}
-          />
-        </View>
+        <Input
+          lable="Description:"
+          inputConfig={{
+            keyboardType: "default",
+            placeholder: "Description",
+            multiline: true,
+            onChangeText: (text) => inputHandler("description", text),
+          }}
+        />
       </View>
       <View style={styles.btnContainer}>
         <Button mode="flat" onPress={() => navigate.goBack()}>
           Cancle
         </Button>
-        <Button onPress={() => handlePress(data)}>Add</Button>
+        <Button onPress={() => handlePress()}>Add</Button>
       </View>
     </View>
   );
@@ -70,5 +89,8 @@ const styles = StyleSheet.create({
   innerInput: {
     flexDirection: "row",
     gap: 15,
+  },
+  rowInput: {
+    flex: 1,
   },
 });
