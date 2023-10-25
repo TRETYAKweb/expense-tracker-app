@@ -2,7 +2,13 @@ import { useNavigation } from "@react-navigation/native";
 import { PayloadAction } from "@reduxjs/toolkit";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, ExpenseItem, Input, useAppDispatch } from "shared";
+import {
+  Button,
+  ExpenseItem,
+  Input,
+  capitalizeFirstLetter,
+  useAppDispatch,
+} from "shared";
 import { createExpense } from "../model";
 
 interface UpdateExpenseProps {
@@ -11,14 +17,18 @@ interface UpdateExpenseProps {
     id: string;
     data: Partial<ExpenseItem>;
   }) => PayloadAction<{ id: string; data: Partial<ExpenseItem> }>;
+  defaultValue: ExpenseItem;
 }
 
 export const UpdateExpense: React.FC<UpdateExpenseProps> = ({
   updateExpense,
   id,
+  defaultValue,
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigation();
+
+  console.log(defaultValue.amount);
 
   const [inputValues, setInputValues] = useState<Partial<ExpenseItem>>({
     amount: 0,
@@ -52,6 +62,7 @@ export const UpdateExpense: React.FC<UpdateExpenseProps> = ({
               keyboardType: "decimal-pad",
               placeholder: "0",
               onChangeText: (text) => inputHandler("amount", text),
+              value: defaultValue.amount.toString(),
             }}
             style={styles.rowInput}
           />
@@ -62,6 +73,7 @@ export const UpdateExpense: React.FC<UpdateExpenseProps> = ({
               placeholder: "YYYY-MM-DD",
               maxLength: 10,
               onChangeText: (text) => inputHandler("date", text),
+              value: defaultValue.date,
             }}
             style={styles.rowInput}
           />
@@ -73,6 +85,7 @@ export const UpdateExpense: React.FC<UpdateExpenseProps> = ({
             placeholder: "Description",
             multiline: true,
             onChangeText: (text) => inputHandler("description", text),
+            value: capitalizeFirstLetter(defaultValue.description),
           }}
         />
       </View>
