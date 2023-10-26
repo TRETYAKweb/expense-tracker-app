@@ -1,7 +1,13 @@
 import React, { useLayoutEffect } from "react";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { RouteProp } from "@react-navigation/native";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
 import {
   capitalizeFirstLetter,
   colors,
@@ -35,32 +41,36 @@ export const Screen: React.FC = () => {
   }, [navigate, isEditing]);
 
   return (
-    <View style={styles.root}>
-      <Text style={styles.title}>Your Expense</Text>
-      {isEditing && expenseItem && (
-        <View style={styles.inner}>
-          <View>
-            <Text style={styles.description}>
-              {capitalizeFirstLetter(expenseItem.description)}
-            </Text>
-            <Text style={styles.amount}>${expenseItem.amount}</Text>
-          </View>
-          <DeleteExpense
-            id={expenseId}
-            onDeleteExpense={expenseModel.actionsExpense.deleteExpense}
-          />
+    <ScrollView style={{ flex: 1 }}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="position">
+        <View style={styles.root}>
+          <Text style={styles.title}>Your Expense</Text>
+          {isEditing && expenseItem && (
+            <View style={styles.inner}>
+              <View>
+                <Text style={styles.description}>
+                  {capitalizeFirstLetter(expenseItem.description)}
+                </Text>
+                <Text style={styles.amount}>${expenseItem.amount}</Text>
+              </View>
+              <DeleteExpense
+                id={expenseId}
+                onDeleteExpense={expenseModel.actionsExpense.deleteExpense}
+              />
+            </View>
+          )}
+          {isEditing && expenseItem ? (
+            <UpdateExpense
+              defaultValue={expenseItem}
+              id={expenseId}
+              updateExpense={expenseModel.actionsExpense.updateExpense}
+            />
+          ) : (
+            <AddExpense addExpense={expenseModel.actionsExpense.addExpdense} />
+          )}
         </View>
-      )}
-      {isEditing && expenseItem ? (
-        <UpdateExpense
-          defaultValue={expenseItem}
-          id={expenseId}
-          updateExpense={expenseModel.actionsExpense.updateExpense}
-        />
-      ) : (
-        <AddExpense addExpense={expenseModel.actionsExpense.addExpdense} />
-      )}
-    </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
