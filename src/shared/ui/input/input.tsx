@@ -23,16 +23,27 @@ interface inputProps {
   lable: string;
   inputConfig: IInputConfig;
   style?: { flex: number };
+  isValid: boolean;
 }
 
-export const Input: React.FC<inputProps> = ({ lable, inputConfig, style }) => {
+export const Input: React.FC<inputProps> = ({
+  lable,
+  inputConfig,
+  style,
+  isValid,
+}) => {
+  const lableStyle = [styles.lable, isValid && styles.errorLable];
+  const inputStyle = [
+    styles.input,
+    inputConfig.multiline && styles.multiline,
+    isValid && styles.errorInput,
+  ];
+
   return (
     <View style={[styles.root, style]}>
-      <Text style={styles.lable}>{lable}</Text>
-      <TextInput
-        style={[styles.input, inputConfig.multiline && styles.multiline]}
-        {...inputConfig}
-      />
+      <Text style={lableStyle}>{lable}</Text>
+      <TextInput style={inputStyle} {...inputConfig} />
+      {isValid && <Text style={styles.textError}>Invalid input format.</Text>}
     </View>
   );
 };
@@ -47,6 +58,9 @@ const styles = StyleSheet.create({
     color: colors.primary[900],
     marginBottom: 7,
   },
+  errorLable: {
+    color: colors.error[500],
+  },
   input: {
     fontFamily: fonts.roboto400,
     fontSize: 16,
@@ -54,6 +68,16 @@ const styles = StyleSheet.create({
     borderColor: colors.gray[500],
     padding: 15,
     borderRadius: 8,
+  },
+  errorInput: {
+    backgroundColor: colors.error[50],
+    borderColor: colors.error[500],
+  },
+  textError: {
+    fontFamily: fonts.roboto400,
+    fontSize: 12,
+    color: colors.error[500],
+    marginTop: 5,
   },
   multiline: {
     minHeight: 100,
