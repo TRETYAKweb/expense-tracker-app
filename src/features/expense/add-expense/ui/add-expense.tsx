@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { StyleSheet, View } from "react-native";
 import { Button, ExpenseItem, Input, colors, useAppDispatch } from "shared";
-import { createExpense } from "../model";
+import { createExpense, inputValuesState, isValidForm } from "../model";
 
 interface AddExpenseProps {
   addExpense: (data: ExpenseItem) => PayloadAction<ExpenseItem>;
@@ -12,10 +12,17 @@ interface AddExpenseProps {
 export const AddExpense: React.FC<AddExpenseProps> = ({ addExpense }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigation();
-  const [inputValues, setInputValues] = useState<Partial<ExpenseItem>>({
+
+  const [inputValues, setInputValues] = useState<inputValuesState>({
     amount: 0,
     description: "",
     date: "",
+  });
+
+  const [isValidInput, setIsValidInput] = useState({
+    amount: true,
+    description: true,
+    date: true,
   });
 
   const inputHandler = (
@@ -30,6 +37,20 @@ export const AddExpense: React.FC<AddExpenseProps> = ({ addExpense }) => {
 
   const handlePress = () => {
     const expenseData = createExpense(inputValues);
+
+    const { isValidAmount, isValidDate, isValidDescription } =
+      isValidForm(inputValues);
+
+    if (!isValidAmount || !isValidDate || !isValidDescription) {
+      setIsValidInput((prev) => ({
+        ...prev,
+        amount: isValidAmount,
+        date: isValidDate,
+        description: isValidDescription,
+      }));
+      return;
+    }
+
     dispatch(addExpense(expenseData));
     navigate.goBack();
   };
@@ -46,6 +67,7 @@ export const AddExpense: React.FC<AddExpenseProps> = ({ addExpense }) => {
               onChangeText: (text) => inputHandler("amount", text),
             }}
             style={styles.rowInput}
+            isValid={!isValidInput.amount}
           />
           <Input
             lable="Date:"
@@ -56,6 +78,7 @@ export const AddExpense: React.FC<AddExpenseProps> = ({ addExpense }) => {
               onChangeText: (text) => inputHandler("date", text),
             }}
             style={styles.rowInput}
+            isValid={!isValidInput.date}
           />
         </View>
         <Input
@@ -66,6 +89,7 @@ export const AddExpense: React.FC<AddExpenseProps> = ({ addExpense }) => {
             multiline: true,
             onChangeText: (text) => inputHandler("description", text),
           }}
+          isValid={!isValidInput.description}
         />
       </View>
       <View style={styles.btnContainer}>

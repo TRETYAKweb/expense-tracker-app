@@ -2,14 +2,8 @@ import { useNavigation } from "@react-navigation/native";
 import { PayloadAction } from "@reduxjs/toolkit";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import {
-  Button,
-  ExpenseItem,
-  Input,
-  capitalizeFirstLetter,
-  useAppDispatch,
-} from "shared";
-import { createExpense } from "../model";
+import { Button, ExpenseItem, Input, useAppDispatch } from "shared";
+import { createExpense, inputValuesState, isValidForm } from "../model";
 
 interface UpdateExpenseProps {
   id: string;
@@ -28,12 +22,16 @@ export const UpdateExpense: React.FC<UpdateExpenseProps> = ({
   const dispatch = useAppDispatch();
   const navigate = useNavigation();
 
-  console.log(defaultValue.amount);
+  const [inputValues, setInputValues] = useState<inputValuesState>({
+    amount: defaultValue.amount,
+    description: defaultValue.description,
+    date: defaultValue.date,
+  });
 
-  const [inputValues, setInputValues] = useState<Partial<ExpenseItem>>({
-    amount: 0,
-    description: "",
-    date: "",
+  const [isValidInput, setIsValidInput] = useState({
+    amount: true,
+    description: true,
+    date: true,
   });
 
   const inputHandler = (
@@ -48,6 +46,19 @@ export const UpdateExpense: React.FC<UpdateExpenseProps> = ({
 
   const handlePress = (id: string) => {
     const data = createExpense(inputValues);
+
+    const { isValidAmount, isValidDate, isValidDescription } =
+      isValidForm(inputValues);
+
+    if (!isValidAmount || !isValidDate || !isValidDescription) {
+      setIsValidInput((prev) => ({
+        ...prev,
+        amount: isValidAmount,
+        date: isValidDate,
+        description: isValidDescription,
+      }));
+      return;
+    }
     dispatch(updateExpense({ id, data }));
     navigate.goBack();
   };
@@ -62,9 +73,10 @@ export const UpdateExpense: React.FC<UpdateExpenseProps> = ({
               keyboardType: "decimal-pad",
               placeholder: "0",
               onChangeText: (text) => inputHandler("amount", text),
-              value: defaultValue.amount.toString(),
+              value: inputValues.amount?.toString(),
             }}
             style={styles.rowInput}
+            isValid={!isValidInput.amount}
           />
           <Input
             lable="Date:"
@@ -73,9 +85,10 @@ export const UpdateExpense: React.FC<UpdateExpenseProps> = ({
               placeholder: "YYYY-MM-DD",
               maxLength: 10,
               onChangeText: (text) => inputHandler("date", text),
-              value: defaultValue.date,
+              value: inputValues.date,
             }}
             style={styles.rowInput}
+            isValid={!isValidInput.date}
           />
         </View>
         <Input
@@ -85,8 +98,9 @@ export const UpdateExpense: React.FC<UpdateExpenseProps> = ({
             placeholder: "Description",
             multiline: true,
             onChangeText: (text) => inputHandler("description", text),
-            value: capitalizeFirstLetter(defaultValue.description),
+            value: inputValues.description,
           }}
+          isValid={!isValidInput.description}
         />
       </View>
       <View style={styles.btnContainer}>
