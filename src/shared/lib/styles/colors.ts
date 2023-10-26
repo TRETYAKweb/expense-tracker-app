@@ -8,6 +8,7 @@ export const colors = {
   },
   accent: "#C8974B",
   error: {
+    50: "#fec1c0",
     100: "#ff8785",
     500: "#d92b27",
   },
