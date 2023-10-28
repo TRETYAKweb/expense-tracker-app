@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ExpenseItem, getFormattedDate } from "shared";
+import { useMutation } from "react-query";
+import { api, ExpenseItem, getFormattedDate, IExpense } from "shared";
 
 const initialState: ExpenseState = {
   expenses: [],
@@ -36,6 +37,16 @@ const expenseSlice = createSlice({
   },
 });
 
+// Hooks
+
+const useCreateExpense = () => {
+  const mutation = useMutation((dataExpense: IExpense) => {
+    return api.expense.create(dataExpense);
+  });
+
+  return mutation;
+};
+
 export const expenseModel = {
   reducer: expenseSlice.reducer,
   actionsExpense: {
@@ -43,6 +54,9 @@ export const expenseModel = {
     deleteExpense: expenseSlice.actions.delete,
     addExpdense: expenseSlice.actions.addExpense,
     updateExpense: expenseSlice.actions.updateExpense,
+  },
+  hooks: {
+    useCreateExpense,
   },
 };
 
