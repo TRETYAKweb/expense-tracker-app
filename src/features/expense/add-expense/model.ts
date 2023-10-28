@@ -1,6 +1,6 @@
 import { ExpenseItem } from "shared";
 
-export const createExpense = (expenseData: inputValuesState) => {
+export const prepareExpenseData = (expenseData: inputValuesState) => {
   let amount =
     typeof expenseData.amount === "string" ? parseFloat(expenseData.amount) : 0;
   if (isNaN(amount)) amount = 0;
