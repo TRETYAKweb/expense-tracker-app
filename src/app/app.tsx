@@ -6,6 +6,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { fontAssets } from "shared";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 export const App: React.FC = () => {
   SplashScreen.preventAutoHideAsync();
@@ -20,9 +23,11 @@ export const App: React.FC = () => {
   return (
     <>
       <StatusBar style="light" />
-      <Provider store={store}>
-        <Routing />
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <Routing />
+        </Provider>
+      </QueryClientProvider>
     </>
   );
 };
