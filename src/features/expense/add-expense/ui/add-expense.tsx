@@ -3,13 +3,16 @@ import { useNavigation } from "@react-navigation/native";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { StyleSheet, View } from "react-native";
 import { Button, ExpenseItem, Input, colors, useAppDispatch } from "shared";
-import { createExpense, inputValuesState, isValidForm } from "../model";
+import { prepareExpenseData, inputValuesState, isValidForm } from "../model";
+import { expenseModel } from "entities";
 
 interface AddExpenseProps {
   addExpense: (data: ExpenseItem) => PayloadAction<ExpenseItem>;
 }
 
 export const AddExpense: React.FC<AddExpenseProps> = ({ addExpense }) => {
+  const createExpense = expenseModel.hooks.useCreateExpense();
+
   const dispatch = useAppDispatch();
   const navigate = useNavigation();
 
@@ -36,7 +39,7 @@ export const AddExpense: React.FC<AddExpenseProps> = ({ addExpense }) => {
   };
 
   const handlePress = () => {
-    const expenseData = createExpense(inputValues);
+    const expenseData = prepareExpenseData(inputValues);
 
     const { isValidAmount, isValidDate, isValidDescription } =
       isValidForm(inputValues);
@@ -51,6 +54,7 @@ export const AddExpense: React.FC<AddExpenseProps> = ({ addExpense }) => {
       return;
     }
 
+    createExpense.mutateAsync(expenseData);
     dispatch(addExpense(expenseData));
     navigate.goBack();
   };
