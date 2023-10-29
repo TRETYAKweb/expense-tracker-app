@@ -1,7 +1,7 @@
 import { getFormattedDate } from "../text/utils";
 
 export interface ExpenseItem {
-  id: string;
+  id?: string;
   description: string;
   amount: number;
   date: string;
