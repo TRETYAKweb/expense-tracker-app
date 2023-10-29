@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { useMutation } from "react-query";
-import { api, ExpenseItem, getFormattedDate, IExpense } from "shared";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { api, ExpenseItem, getFormattedDate } from "shared";
 
 const initialState: ExpenseState = {
   expenses: [],
@@ -40,11 +40,32 @@ const expenseSlice = createSlice({
 // Hooks
 
 const useCreateExpense = () => {
-  const mutation = useMutation((dataExpense: IExpense) => {
-    return api.expense.create(dataExpense);
-  });
-
+  const client = useQueryClient();
+  const mutation = useMutation(
+    (dataExpense: ExpenseItem) => {
+      return api.expense.create(dataExpense);
+    },
+    {
+      onSuccess() {
+        client.invalidateQueries({ queryKey: ["expense"] });
+      },
+    }
+  );
   return mutation;
+};
+
+const useExpense = () => {
+  const { data, isFetched, isSuccess, refetch } = useQuery(
+    "expense",
+    api.expense.fetch
+  );
+
+  return {
+    data: Array.isArray(data) ? data : [],
+    isFetched,
+    isSuccess,
+    refetch,
+  };
 };
 
 export const expenseModel = {
@@ -57,6 +78,7 @@ export const expenseModel = {
   },
   hooks: {
     useCreateExpense,
+    useExpense,
   },
 };
 
