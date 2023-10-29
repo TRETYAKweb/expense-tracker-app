@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { ExpenseList, ExpenseSummary } from "widgets";
 import {
   DUMMY_EXPENSES,
   ExpenseItem,
+  colors,
+  fonts,
   getDateMinusDayse,
   useAppDispatch,
   useAppSelector,
@@ -13,6 +15,7 @@ import { parseISO } from "date-fns";
 
 export const Screen: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { data, isFetched } = expenseModel.hooks.useExpense();
 
   const expenses: ExpenseItem[] = useAppSelector(
     (state) => state.expense.expenses
@@ -38,6 +41,8 @@ export const Screen: React.FC = () => {
     dispatch(expenseModel.actionsExpense.setExpenses(DUMMY_EXPENSES));
   }, []);
 
+  if (!isFetched) return <Text style={styles.loading}>Loading...</Text>;
+
   return (
     <View style={styles.root}>
       <ExpenseSummary expensesPeriod="Last 7 Days" expenses={recentExpenses} />
@@ -50,5 +55,12 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     paddingTop: 25,
+  },
+  loading: {
+    fontFamily: fonts.gilroy800,
+    fontSize: 24,
+    textAlign: "center",
+    marginTop: 50,
+    color: colors.primary[600],
   },
 });
