@@ -8,7 +8,6 @@ export const prepareExpenseData = (expenseData: inputValuesState) => {
     description: expenseData.description || "",
     date: expenseData.date || "",
     amount: amount || 0,
-    id: Math.floor(Math.random() * 1000000).toString(),
   };
 };
 
