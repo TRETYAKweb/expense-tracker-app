@@ -1,17 +1,22 @@
 import React, { useEffect } from "react";
-import { ExpenseItem, useAppSelector } from "shared";
-import { StyleSheet, View } from "react-native";
+import { ExpenseItem, colors, fonts, useAppSelector } from "shared";
+import { StyleSheet, Text, View } from "react-native";
 import { ExpenseList, ExpenseSummary } from "widgets";
+import { expenseModel } from "entities";
 
 export const Screen: React.FC = () => {
-  const expenses: ExpenseItem[] = useAppSelector(
-    (state) => state.expense.expenses
-  );
+  const { data, isFetched } = expenseModel.hooks.useExpense();
+
+  // const expenses: ExpenseItem[] = useAppSelector(
+  //   (state) => state.expense.expenses
+  // );
+
+  if (!isFetched) return <Text style={styles.loading}>Loading...</Text>;
 
   return (
     <View style={styles.root}>
-      <ExpenseSummary expensesPeriod="Total" expenses={expenses} />
-      <ExpenseList expenses={expenses} />
+      <ExpenseSummary expensesPeriod="Total" expenses={data} />
+      <ExpenseList expenses={data} />
     </View>
   );
 };
@@ -20,5 +25,13 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     paddingTop: 25,
+  },
+
+  loading: {
+    fontFamily: fonts.gilroy800,
+    fontSize: 24,
+    textAlign: "center",
+    marginTop: 50,
+    color: colors.primary[600],
   },
 });
