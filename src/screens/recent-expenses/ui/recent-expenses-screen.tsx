@@ -1,27 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { ExpenseList, ExpenseSummary } from "widgets";
-import {
-  DUMMY_EXPENSES,
-  ExpenseItem,
-  colors,
-  fonts,
-  getDateMinusDayse,
-  useAppDispatch,
-  useAppSelector,
-} from "shared";
+import { colors, fonts, getDateMinusDayse } from "shared";
 import { expenseModel } from "entities";
 import { parseISO } from "date-fns";
 
 export const Screen: React.FC = () => {
-  const dispatch = useAppDispatch();
   const { data, isFetched } = expenseModel.hooks.useExpense();
 
-  const expenses: ExpenseItem[] = useAppSelector(
-    (state) => state.expense.expenses
-  );
-
-  const recentExpenses = expenses.filter((expense) => {
+  const recentExpenses = data.filter((expense) => {
     if (expense.date) {
       const dateParts = expense.date.split("-");
       if (dateParts.length === 3) {
@@ -36,10 +23,6 @@ export const Screen: React.FC = () => {
     }
     return false;
   });
-
-  useEffect(() => {
-    dispatch(expenseModel.actionsExpense.setExpenses(DUMMY_EXPENSES));
-  }, []);
 
   if (!isFetched) return <Text style={styles.loading}>Loading...</Text>;
 

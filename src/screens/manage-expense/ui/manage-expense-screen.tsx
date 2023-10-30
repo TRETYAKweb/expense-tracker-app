@@ -8,13 +8,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-import {
-  capitalizeFirstLetter,
-  colors,
-  fonts,
-  ExpenseItem,
-  useAppSelector,
-} from "shared";
+import { capitalizeFirstLetter, colors, fonts } from "shared";
 import { DeleteExpense, AddExpense, UpdateExpense } from "features";
 import { expenseModel } from "entities";
 
@@ -24,15 +18,13 @@ export type RootStackParamList = {
 
 export const Screen: React.FC = () => {
   const navigate = useNavigation();
-  const expenses: ExpenseItem[] = useAppSelector(
-    (state) => state.expense.expenses
-  );
+  const { data, isFetched } = expenseModel.hooks.useExpense();
   const route = useRoute<RouteProp<RootStackParamList>>();
 
   const expenseId: string = route.params?.expenseId;
   const isEditing: boolean = Boolean(expenseId);
 
-  const expenseItem = expenses.find((item) => item.id === expenseId);
+  const expenseItem = data.find((item) => item.id === expenseId);
 
   useLayoutEffect(() => {
     navigate.setOptions({
@@ -40,6 +32,7 @@ export const Screen: React.FC = () => {
     });
   }, [navigate, isEditing]);
 
+  if (!isFetched) return <Text style={styles.loading}>Loading...</Text>;
   return (
     <ScrollView style={{ flex: 1 }}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="position">
@@ -53,18 +46,11 @@ export const Screen: React.FC = () => {
                 </Text>
                 <Text style={styles.amount}>${expenseItem.amount}</Text>
               </View>
-              <DeleteExpense
-                id={expenseId}
-                onDeleteExpense={expenseModel.actionsExpense.deleteExpense}
-              />
+              <DeleteExpense id={expenseId} />
             </View>
           )}
           {isEditing && expenseItem ? (
-            <UpdateExpense
-              defaultValue={expenseItem}
-              id={expenseId}
-              updateExpense={expenseModel.actionsExpense.updateExpense}
-            />
+            <UpdateExpense defaultValue={expenseItem} id={expenseId} />
           ) : (
             <AddExpense addExpense={expenseModel.actionsExpense.addExpdense} />
           )}
@@ -100,5 +86,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: "center",
     marginBottom: 30,
+  },
+  loading: {
+    fontFamily: fonts.gilroy800,
+    fontSize: 24,
+    textAlign: "center",
+    marginTop: 50,
+    color: colors.primary[600],
   },
 });

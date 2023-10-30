@@ -1,15 +1,11 @@
-import React, { useEffect } from "react";
-import { ExpenseItem, colors, fonts, useAppSelector } from "shared";
+import React from "react";
+import { colors, fonts } from "shared";
 import { StyleSheet, Text, View } from "react-native";
 import { ExpenseList, ExpenseSummary } from "widgets";
 import { expenseModel } from "entities";
 
 export const Screen: React.FC = () => {
   const { data, isFetched } = expenseModel.hooks.useExpense();
-
-  // const expenses: ExpenseItem[] = useAppSelector(
-  //   (state) => state.expense.expenses
-  // );
 
   if (!isFetched) return <Text style={styles.loading}>Loading...</Text>;
 
