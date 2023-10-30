@@ -1,13 +1,19 @@
 import { ExpenseItem } from "shared";
 
 export const createExpense = (expenseData: Partial<ExpenseItem>) => {
-  let amount =
-    typeof expenseData.amount === "string" ? parseFloat(expenseData.amount) : 0;
-  if (isNaN(amount)) amount = 0;
+  let amount: number = 0;
+
+  if (typeof expenseData.amount === "string") {
+    amount = parseFloat(expenseData.amount);
+    if (isNaN(amount)) amount = 0;
+  } else if (typeof expenseData.amount === "number") {
+    amount = expenseData.amount;
+  }
+
   return {
     description: expenseData.description || "",
     date: expenseData.date || "",
-    amount: amount || 0,
+    amount: amount,
   };
 };
 
