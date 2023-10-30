@@ -4,23 +4,20 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, ExpenseItem, Input, useAppDispatch } from "shared";
 import { createExpense, inputValuesState, isValidForm } from "../model";
+import { expenseModel } from "entities";
 
 interface UpdateExpenseProps {
   id: string;
-  updateExpense: (payload: {
-    id: string;
-    data: Partial<ExpenseItem>;
-  }) => PayloadAction<{ id: string; data: Partial<ExpenseItem> }>;
   defaultValue: ExpenseItem;
 }
 
 export const UpdateExpense: React.FC<UpdateExpenseProps> = ({
-  updateExpense,
   id,
   defaultValue,
 }) => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigation();
+
+  const updateExpense = expenseModel.hooks.useUpdateExpense();
 
   const [inputValues, setInputValues] = useState<inputValuesState>({
     amount: defaultValue.amount,
@@ -45,7 +42,7 @@ export const UpdateExpense: React.FC<UpdateExpenseProps> = ({
   };
 
   const handlePress = (id: string) => {
-    const data = createExpense(inputValues);
+    const updateData = createExpense(inputValues);
 
     const { isValidAmount, isValidDate, isValidDescription } =
       isValidForm(inputValues);
@@ -59,7 +56,8 @@ export const UpdateExpense: React.FC<UpdateExpenseProps> = ({
       }));
       return;
     }
-    dispatch(updateExpense({ id, data }));
+    console.log(updateData);
+    updateExpense.mutateAsync({ id, updateData });
     navigate.goBack();
   };
 
