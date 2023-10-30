@@ -12,8 +12,6 @@ interface AddExpenseProps {
 
 export const AddExpense: React.FC<AddExpenseProps> = ({ addExpense }) => {
   const createExpense = expenseModel.hooks.useCreateExpense();
-
-  const dispatch = useAppDispatch();
   const navigate = useNavigation();
 
   const [inputValues, setInputValues] = useState<inputValuesState>({
@@ -55,7 +53,6 @@ export const AddExpense: React.FC<AddExpenseProps> = ({ addExpense }) => {
     }
 
     createExpense.mutateAsync(expenseData);
-    dispatch(addExpense(expenseData));
     navigate.goBack();
   };
 
