@@ -54,6 +54,39 @@ const useCreateExpense = () => {
   return mutation;
 };
 
+const useUpdateExpense = () => {
+  const client = useQueryClient();
+  const mutation = useMutation(
+    (params: { id: string; updateData: ExpenseItem }) => {
+      const { id, updateData } = params;
+      return api.expense.update(id, updateData);
+    },
+    {
+      onSuccess() {
+        client.invalidateQueries({ queryKey: ["expense"] });
+      },
+    }
+  );
+
+  return mutation;
+};
+
+const useDeleteExpense = () => {
+  const client = useQueryClient();
+  const mutation = useMutation(
+    (id: string) => {
+      return api.expense.delete(id);
+    },
+    {
+      onSuccess() {
+        client.invalidateQueries({ queryKey: ["expense"] });
+      },
+    }
+  );
+
+  return mutation;
+};
+
 const useExpense = () => {
   const { data, isFetched, isSuccess, refetch } = useQuery(
     "expense",
@@ -77,8 +110,10 @@ export const expenseModel = {
     updateExpense: expenseSlice.actions.updateExpense,
   },
   hooks: {
-    useCreateExpense,
     useExpense,
+    useCreateExpense,
+    useUpdateExpense,
+    useDeleteExpense,
   },
 };
 
