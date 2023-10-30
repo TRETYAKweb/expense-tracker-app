@@ -1,22 +1,19 @@
 import { useNavigation } from "@react-navigation/native";
 import { PayloadAction } from "@reduxjs/toolkit";
+import { expenseModel } from "entities";
 import React from "react";
-import { Button, colors, useAppDispatch } from "shared";
+import { Button, colors } from "shared";
 
 interface DeletedExpenseProps {
   id: string;
-  onDeleteExpense: (id: string) => PayloadAction<string>;
 }
 
-export const DeleteExpense: React.FC<DeletedExpenseProps> = ({
-  id,
-  onDeleteExpense,
-}) => {
+export const DeleteExpense: React.FC<DeletedExpenseProps> = ({ id }) => {
+  const deleteExpense = expenseModel.hooks.useDeleteExpense();
   const navigation = useNavigation();
-  const dispatch = useAppDispatch();
 
   const handlePress = (id: string): void => {
-    dispatch(onDeleteExpense(id));
+    deleteExpense.mutateAsync(id);
     navigation.goBack();
   };
 
