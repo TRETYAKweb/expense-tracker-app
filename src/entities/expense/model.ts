@@ -7,7 +7,6 @@ import {
   openNotificationError,
 } from "shared";
 import { AxiosError } from "axios";
-import { useToast } from "react-native-toast-notifications";
 
 const initialState: ExpenseState = {
   expenses: [],
