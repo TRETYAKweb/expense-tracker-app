@@ -1,6 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { api, ExpenseItem, getFormattedDate } from "shared";
+import {
+  api,
+  ExpenseItem,
+  getFormattedDate,
+  openNotificationError,
+} from "shared";
+import { AxiosError } from "axios";
+import { useToast } from "react-native-toast-notifications";
 
 const initialState: ExpenseState = {
   expenses: [],
@@ -49,6 +56,10 @@ const useCreateExpense = () => {
       onSuccess() {
         client.invalidateQueries({ queryKey: ["expense"] });
       },
+      onError(error: AxiosError) {
+        const { message } = error;
+        openNotificationError(message);
+      },
     }
   );
   return mutation;
@@ -64,6 +75,10 @@ const useUpdateExpense = () => {
     {
       onSuccess() {
         client.invalidateQueries({ queryKey: ["expense"] });
+      },
+      onError(error: AxiosError) {
+        const { message } = error;
+        openNotificationError(message);
       },
     }
   );
@@ -81,6 +96,10 @@ const useDeleteExpense = () => {
       onSuccess() {
         client.invalidateQueries({ queryKey: ["expense"] });
       },
+      onError(error: AxiosError) {
+        const { message } = error;
+        openNotificationError(message);
+      },
     }
   );
 
@@ -90,7 +109,13 @@ const useDeleteExpense = () => {
 const useExpense = () => {
   const { data, isFetched, isSuccess, refetch } = useQuery(
     "expense",
-    api.expense.fetch
+    api.expense.fetch,
+    {
+      onError(error: AxiosError) {
+        const { message } = error;
+        openNotificationError(message);
+      },
+    }
   );
 
   return {
