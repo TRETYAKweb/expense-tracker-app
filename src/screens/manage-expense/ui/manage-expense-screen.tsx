@@ -8,7 +8,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-import { capitalizeFirstLetter, colors, fonts } from "shared";
+import { LoadingOverlay, capitalizeFirstLetter, colors, fonts } from "shared";
 import { DeleteExpense, AddExpense, UpdateExpense } from "features";
 import { expenseModel } from "entities";
 
@@ -32,7 +32,7 @@ export const Screen: React.FC = () => {
     });
   }, [navigate, isEditing]);
 
-  if (!isFetched) return <Text style={styles.loading}>Loading...</Text>;
+  if (!isFetched) return <LoadingOverlay />;
   return (
     <ScrollView style={{ flex: 1 }}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="position">
@@ -86,12 +86,5 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: "center",
     marginBottom: 30,
-  },
-  loading: {
-    fontFamily: fonts.gilroy800,
-    fontSize: 24,
-    textAlign: "center",
-    marginTop: 50,
-    color: colors.primary[600],
   },
 });

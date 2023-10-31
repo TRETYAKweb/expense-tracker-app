@@ -1,5 +1,4 @@
 import { useNavigation } from "@react-navigation/native";
-import { PayloadAction } from "@reduxjs/toolkit";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, ExpenseItem, Input, useAppDispatch } from "shared";
@@ -56,7 +55,6 @@ export const UpdateExpense: React.FC<UpdateExpenseProps> = ({
       }));
       return;
     }
-    console.log(updateData);
     updateExpense.mutateAsync({ id, updateData });
     navigate.goBack();
   };

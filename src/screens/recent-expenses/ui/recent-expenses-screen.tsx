@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { ExpenseList, ExpenseSummary } from "widgets";
-import { colors, fonts, getDateMinusDayse } from "shared";
+import { LoadingOverlay, getDateMinusDayse } from "shared";
 import { expenseModel } from "entities";
 import { parseISO } from "date-fns";
 
@@ -24,7 +24,7 @@ export const Screen: React.FC = () => {
     return false;
   });
 
-  if (!isFetched) return <Text style={styles.loading}>Loading...</Text>;
+  if (!isFetched) return <LoadingOverlay />;
 
   return (
     <View style={styles.root}>
@@ -38,12 +38,5 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     paddingTop: 25,
-  },
-  loading: {
-    fontFamily: fonts.gilroy800,
-    fontSize: 24,
-    textAlign: "center",
-    marginTop: 50,
-    color: colors.primary[600],
   },
 });
