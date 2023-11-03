@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { colors, fonts } from "../../../shared/lib";
 
 type IconName = "add" | "trash";
-type TypeMode = "error" | "flat";
+type TypeMode = "error" | "flat" | "light";
 
 interface ButtonProps {
   children: string;
@@ -45,7 +45,13 @@ export const Button: React.FC<ButtonProps> = ({
             size={iconSize}
           />
         )}
-        <Text style={[styles.textBtn, mode === "flat" && styles.flatText]}>
+        <Text
+          style={[
+            styles.textBtn,
+            mode === "flat" && styles.flatText,
+            mode === "light" && styles.lightText,
+          ]}
+        >
           {children}
         </Text>
       </View>
@@ -81,6 +87,12 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   flatText: {
+    color: colors.primary[700],
+  },
+  light: {
+    backgroundColor: colors.white,
+  },
+  lightText: {
     color: colors.primary[700],
   },
   pressed: {
