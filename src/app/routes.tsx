@@ -5,13 +5,14 @@ import {
   ManageExpenseScreen,
   RecentExpensesScreen,
   AllExpensesScreen,
+  LoginScreen,
+  SignUpScreen,
 } from "screens";
 import { screenNames, colors, fonts } from "shared";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { IconButton } from "shared";
-import { LoginScreen } from "screens/login";
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -94,15 +95,24 @@ export const StackNavigation: React.FC = () => {
       }}
     >
       <Stack.Screen
+        name="ExpenseOverview"
+        component={BottomTabNavigation}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
         name="Login"
         component={LoginScreen}
         options={{
           headerShown: false,
         }}
       />
+
       <Stack.Screen
-        name="ExpenseOverview"
-        component={BottomTabNavigation}
+        name="SignUp"
+        component={SignUpScreen}
         options={{
           headerShown: false,
         }}
