@@ -7,7 +7,7 @@ import { fontAssets } from "shared";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ToastProvider } from "react-native-toast-notifications";
+import Toast from "react-native-toast-message";
 
 const queryClient = new QueryClient();
 
@@ -24,13 +24,12 @@ export const App: React.FC = () => {
   return (
     <>
       <StatusBar style="light" />
-      <ToastProvider>
-        <QueryClientProvider client={queryClient}>
-          <Provider store={store}>
-            <Routing />
-          </Provider>
-        </QueryClientProvider>
-      </ToastProvider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <Routing />
+        </Provider>
+      </QueryClientProvider>
+      <Toast />
     </>
   );
 };
