@@ -50,9 +50,13 @@ export const Screen: React.FC = () => {
             </View>
           )}
           {isEditing && expenseItem ? (
-            <UpdateExpense defaultValue={expenseItem} id={expenseId} />
+            <UpdateExpense
+              isEditing
+              defaultValue={expenseItem}
+              id={expenseId}
+            />
           ) : (
-            <AddExpense addExpense={expenseModel.actionsExpense.addExpdense} />
+            <AddExpense />
           )}
         </View>
       </KeyboardAvoidingView>
