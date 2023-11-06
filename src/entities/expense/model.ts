@@ -5,6 +5,7 @@ import {
   ExpenseItem,
   getFormattedDate,
   openNotificationError,
+  openNotificationSuccess,
 } from "shared";
 import { AxiosError } from "axios";
 
@@ -54,6 +55,7 @@ const useCreateExpense = () => {
     {
       onSuccess() {
         client.invalidateQueries({ queryKey: ["expense"] });
+        openNotificationSuccess("Expense added successfully");
       },
       onError(error: AxiosError) {
         const { message } = error;
@@ -67,13 +69,14 @@ const useCreateExpense = () => {
 const useUpdateExpense = () => {
   const client = useQueryClient();
   const mutation = useMutation(
-    (params: { id: string; updateData: ExpenseItem }) => {
-      const { id, updateData } = params;
-      return api.expense.update(id, updateData);
+    (params: { id: string; data: ExpenseItem }) => {
+      const { id, data } = params;
+      return api.expense.update(id, data);
     },
     {
       onSuccess() {
         client.invalidateQueries({ queryKey: ["expense"] });
+        openNotificationSuccess("Expense updated successfully");
       },
       onError(error: AxiosError) {
         const { message } = error;
@@ -94,6 +97,7 @@ const useDeleteExpense = () => {
     {
       onSuccess() {
         client.invalidateQueries({ queryKey: ["expense"] });
+        openNotificationSuccess("The expense was successfully deleted");
       },
       onError(error: AxiosError) {
         const { message } = error;
