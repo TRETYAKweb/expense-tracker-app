@@ -1,23 +1,25 @@
-import { useToast } from "react-native-toast-notifications";
+import Toast from "react-native-toast-message";
 
 export const openNotificationSuccess = (description: string): void => {
-  const toast = useToast();
-
-  toast.show(description, {
+  Toast.show({
     type: "success",
-    placement: "bottom",
-    duration: 4000,
-    animationType: "slide-in",
+    text1: "Success",
+    text2: description,
+    visibilityTime: 3000,
+    autoHide: true,
+    position: "top",
+    topOffset: 80,
   });
 };
 
 export const openNotificationError = (description: string): void => {
-  const toast = useToast();
-
-  toast.show(description, {
-    type: "danger",
-    placement: "bottom",
-    duration: 4000,
-    animationType: "slide-in",
+  Toast.show({
+    type: "error",
+    text1: "Error",
+    text2: description,
+    visibilityTime: 4000,
+    autoHide: true,
+    position: "top",
+    topOffset: 80,
   });
 };
