@@ -1,10 +1,11 @@
 import axios from "axios";
-import { API_URL } from "shared/constants";
+import { API_URL, SIGNUP_URL, LOGIN_URL, API_KEY } from "shared/constants";
 import { ExpenseItem } from "shared/lib";
 
-// interface FirebaseResponse<T> {
-//   data: T;
-// }
+export interface ISignUp {
+  email: string;
+  password: string;
+}
 
 export const api = Object.freeze({
   expense: {
@@ -37,7 +38,12 @@ export const api = Object.freeze({
       return response.data;
     },
     delete: async (id: string) => {
-      const response = await axios.delete(`${API_URL}/expenses/${id}.json`);
+      await axios.delete(`${API_URL}/expenses/${id}.json`);
     },
+  },
+  signUp: async (user: ISignUp) => {
+    const response = await axios.post(`${SIGNUP_URL}${API_KEY}`, user);
+    console.log(response.data);
+    return response.data;
   },
 });
