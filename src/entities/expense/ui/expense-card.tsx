@@ -18,6 +18,7 @@ export const Card: React.FC<CardProps> = ({ expense }) => {
   const { navigate } = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const handlePress = () =>
+    expense.id &&
     navigate(screenNames.ManageExpense, { expenseId: expense.id });
 
   return (
