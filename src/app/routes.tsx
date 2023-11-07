@@ -95,14 +95,6 @@ export const StackNavigation: React.FC = () => {
       }}
     >
       <Stack.Screen
-        name="ExpenseOverview"
-        component={BottomTabNavigation}
-        options={{
-          headerShown: false,
-        }}
-      />
-
-      <Stack.Screen
         name="Login"
         component={LoginScreen}
         options={{
@@ -113,6 +105,14 @@ export const StackNavigation: React.FC = () => {
       <Stack.Screen
         name="SignUp"
         component={SignUpScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="ExpenseOverview"
+        component={BottomTabNavigation}
         options={{
           headerShown: false,
         }}
