@@ -5,6 +5,7 @@ import { ExpenseItem } from "shared/lib";
 export interface ISignUp {
   email: string;
   password: string;
+  returnSecureToken?: boolean;
 }
 
 export const api = Object.freeze({
