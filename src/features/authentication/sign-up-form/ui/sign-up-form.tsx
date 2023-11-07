@@ -2,8 +2,8 @@ import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Input, colors, fonts } from "shared";
-import { IFormData, validationSchema } from "../model";
+import { Button, Input, LoadingOverlay, api, colors, fonts } from "shared";
+import { IFormData, useSignUp, validationSchema } from "../model";
 import { useNavigation } from "@react-navigation/native";
 
 export const Form: React.FC = () => {
@@ -11,6 +11,7 @@ export const Form: React.FC = () => {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<IFormData>({
     mode: "onTouched",
     resolver: yupResolver(validationSchema),
@@ -22,10 +23,16 @@ export const Form: React.FC = () => {
     },
   });
 
+  const signUp = useSignUp();
+
   const navigation = useNavigation();
 
-  const onSubmit = (data: { password?: string; email?: string }) => {
+  const onSubmit = (data: IFormData) => {
     console.log(data);
+    const { email, password } = data;
+    signUp.mutateAsync({ email, password });
+    reset();
+    navigation.navigate("Login" as never);
   };
 
   return (
@@ -47,6 +54,8 @@ export const Form: React.FC = () => {
               inputProps={{
                 placeholder: "Email",
                 placeholderTextColor: colors.gray[300],
+                keyboardType: "email-address",
+                autoCapitalize: "none",
               }}
             />
           )}
@@ -65,6 +74,8 @@ export const Form: React.FC = () => {
               inputProps={{
                 placeholder: "Confirm Email",
                 placeholderTextColor: colors.gray[300],
+                keyboardType: "email-address",
+                autoCapitalize: "none",
               }}
             />
           )}

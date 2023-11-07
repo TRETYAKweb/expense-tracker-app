@@ -1,3 +1,12 @@
+import { useMutation } from "react-query";
+import {
+  ISignUp,
+  api,
+  openNotificationError,
+  openNotificationSuccess,
+  setDataToAs,
+} from "shared";
+import { AxiosError } from "axios";
 import * as yup from "yup";
 
 const tooShortMessage = "Минимальная длина - ${min} символов";
@@ -29,3 +38,31 @@ export const validationSchema = yup.object().shape({
     .oneOf([yup.ref("password")], "Passwords must match")
     .required("*"),
 });
+
+// Hooks
+
+interface ISuccessData {
+  email: string;
+  expiresIn: string;
+  idToken: string;
+}
+
+export const useSignUp = () => {
+  const mutation = useMutation(
+    (user: ISignUp) => {
+      return api.signUp(user);
+    },
+    {
+      onSuccess(data: ISuccessData) {
+        openNotificationSuccess("Регистрация прошла успешно");
+        setDataToAs("token", data?.idToken);
+      },
+      onError(error: AxiosError) {
+        const { message } = error;
+        openNotificationError(message);
+      },
+    }
+  );
+
+  return mutation;
+};
