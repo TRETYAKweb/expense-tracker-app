@@ -4,3 +4,4 @@ export * from "./mock/dummy-expenses";
 export * from "./text/utils";
 export * from "./redux/hooks";
 export * from "./date/utils";
+export * from "./async-storage";
