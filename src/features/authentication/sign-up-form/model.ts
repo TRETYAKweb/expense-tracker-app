@@ -50,10 +50,11 @@ interface ISuccessData {
 export const useSignUp = () => {
   const mutation = useMutation(
     (user: ISignUp) => {
-      return api.signUp(user);
+      return api.signUp({ ...user, returnSecureToken: true });
     },
     {
       onSuccess(data: ISuccessData) {
+        console.log(data);
         openNotificationSuccess("Регистрация прошла успешно");
         setDataToAs("token", data?.idToken);
       },
