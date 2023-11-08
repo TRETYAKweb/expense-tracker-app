@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { SignUpForm } from "features";
+import { AuthForm } from "features";
 import React from "react";
 import {
   StyleSheet,
@@ -17,7 +17,7 @@ export const Screen: React.FC = () => {
         <ScrollView style={styles.root}>
           <KeyboardAvoidingView style={styles.root} behavior="position">
             <View style={styles.inner}>
-              <SignUpForm />
+              <AuthForm />
             </View>
           </KeyboardAvoidingView>
         </ScrollView>
