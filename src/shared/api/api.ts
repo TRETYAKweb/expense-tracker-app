@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL, AUTHENTICATION_URL, API_KEY } from "shared/constants";
-import { ExpenseItem } from "shared/lib";
+import { ExpenseItem, getDataFromAs } from "shared/lib";
 
 export interface IAuthenticate {
   email: string;
@@ -8,6 +8,11 @@ export interface IAuthenticate {
 }
 
 type TypeMode = "signUp" | "signInWithPassword";
+
+const getToken = async (): Promise<string> => {
+  const token = await getDataFromAs("token");
+  return typeof token === "string" ? token : "";
+};
 
 const authenticate = async (mode: TypeMode, user: IAuthenticate) => {
   const response = await axios.post(
@@ -51,12 +56,14 @@ export const api = Object.freeze({
       await axios.delete(`${API_URL}/expenses/${id}.json`);
     },
   },
-  signUp: async (user: IAuthenticate) => {
-    const data = authenticate("signUp", user);
-    return data;
-  },
-  logIn: async (user: IAuthenticate) => {
-    const data = authenticate("signInWithPassword", user);
-    return data;
+  auth: {
+    signUp: async (user: IAuthenticate) => {
+      const data = await authenticate("signUp", user);
+      return data;
+    },
+    logIn: async (user: IAuthenticate) => {
+      const data = await authenticate("signInWithPassword", user);
+      return data;
+    },
   },
 });
