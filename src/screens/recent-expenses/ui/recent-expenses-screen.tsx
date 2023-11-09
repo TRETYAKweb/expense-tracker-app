@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { ExpenseList, ExpenseSummary } from "widgets";
 import { LoadingOverlay, getDateMinusDayse } from "shared";
 import { expenseModel } from "entities";
