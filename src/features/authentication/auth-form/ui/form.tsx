@@ -1,19 +1,19 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { IFormData, authenticateModel } from "../model";
+import { IFormData, logInSchema, signUpSchema } from "../model";
 import { Button, Input, colors, fonts } from "shared";
+import { authModel } from "entities";
 
 interface IFormProps {
   isLogin?: boolean;
 }
 
 export const Form: React.FC<IFormProps> = ({ isLogin }) => {
-  const { hooks, schema } = authenticateModel;
   const navigation = useNavigation();
-  const validationSchema = isLogin ? schema.logInSchema : schema.signUpSchema;
+  const validationSchema = isLogin ? logInSchema : signUpSchema;
   const {
     control,
     handleSubmit,
@@ -23,8 +23,9 @@ export const Form: React.FC<IFormProps> = ({ isLogin }) => {
     mode: "onTouched",
     resolver: yupResolver(validationSchema),
   });
-  const logIn = hooks.useLogIn();
-  const signUp = hooks.useSignUp();
+
+  const logIn = authModel.hooks.useLogIn();
+  const signUp = authModel.hooks.useSignUp();
   const navigateToScreen = isLogin ? "SignUp" : "Login";
 
   const onSubmit = (data: IFormData) => {
@@ -35,7 +36,6 @@ export const Form: React.FC<IFormProps> = ({ isLogin }) => {
       signUp.mutateAsync({ email, password });
     }
     reset();
-    // navigation.navigate(navigateToScreen as never);
   };
 
   return (
