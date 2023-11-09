@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Pressable, StyleSheet } from "react-native";
 
-type IconName = "add" | "trash";
+type IconName = "add" | "trash" | "exit-outline";
 
 interface IconButtonProps {
   name: IconName;
