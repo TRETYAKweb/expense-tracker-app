@@ -8,11 +8,18 @@ import {
   LoginScreen,
   SignUpScreen,
 } from "screens";
-import { screenNames, colors, fonts } from "shared";
+import {
+  screenNames,
+  colors,
+  fonts,
+  useAppSelector,
+  useAppDispatch,
+} from "shared";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { IconButton } from "shared";
+import { authModel } from "entities";
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -49,6 +56,20 @@ export const BottomTabNavigation: React.FC = () => {
             onPress={() => navigate(screenNames.ManageExpense as never)}
           />
         ),
+        headerLeft: ({ tintColor }) => {
+          const dispatch = useAppDispatch();
+
+          return (
+            <IconButton
+              color={tintColor}
+              size={27}
+              name="exit-outline"
+              onPress={() => {
+                dispatch(authModel.actionsAuth.logout());
+              }}
+            />
+          );
+        },
       }}
     >
       <BottomTab.Screen
@@ -95,22 +116,6 @@ export const StackNavigation: React.FC = () => {
       }}
     >
       <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-
-      <Stack.Screen
-        name="SignUp"
-        component={SignUpScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-
-      <Stack.Screen
         name="ExpenseOverview"
         component={BottomTabNavigation}
         options={{
@@ -128,10 +133,34 @@ export const StackNavigation: React.FC = () => {
   );
 };
 
+const AuthStack: React.FC = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="SignUp"
+        component={SignUpScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 export const Routing: React.FC = () => {
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   return (
     <NavigationContainer>
-      <StackNavigation />
+      {!isAuthenticated && <AuthStack />}
+      {isAuthenticated && <StackNavigation />}
     </NavigationContainer>
   );
 };
