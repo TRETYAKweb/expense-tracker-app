@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
@@ -14,6 +14,9 @@ import {
   fonts,
   useAppSelector,
   useAppDispatch,
+  removeDataToAs,
+  getDataFromAs,
+  LoadingOverlay,
 } from "shared";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -65,6 +68,7 @@ export const BottomTabNavigation: React.FC = () => {
               size={27}
               name="exit-outline"
               onPress={() => {
+                removeDataToAs("token");
                 dispatch(authModel.actionsAuth.logout());
               }}
             />
@@ -155,7 +159,7 @@ const AuthStack: React.FC = () => {
   );
 };
 
-export const Routing: React.FC = () => {
+const Root: React.FC = () => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   return (
     <NavigationContainer>
@@ -163,4 +167,23 @@ export const Routing: React.FC = () => {
       {isAuthenticated && <StackNavigation />}
     </NavigationContainer>
   );
+};
+
+export const Routing: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const [tryingLogin, isTryingLogin] = useState<boolean>(true);
+
+  useEffect(() => {
+    (async () => {
+      const token = await getDataFromAs("token");
+      if (token) dispatch(authModel.actionsAuth.authenticate(token));
+      isTryingLogin(false);
+    })();
+  }, []);
+
+  if (tryingLogin) {
+    return <LoadingOverlay />;
+  }
+
+  return <Root />;
 };
